@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>検索結果</title>
+</head>
+<body>
+
+<h2>
+    検索結果：
+    <span th:text="${keyword}"></span>
+</h2>
+
+<table border="1">
+    <tr>
+        <th>商品ID</th>
+        <th>商品名</th>
+        <th>ブランド</th>
+        <th>サイズ</th>
+        <th>価格</th>
+    </tr>
+
+    <tr th:each="v : ${search_result}">
+        <td th:text="${v.pId}"></td>
+        <td th:text="${v.pName}"></td>
+        <td th:text="${v.brand}"></td>
+        <td th:text="${v.size}"></td>
+        <td th:text="${v.price}"></td>
+    </tr>
+</table>
+
+<p>
+    <a href="/production">商品一覧</a>
+</p>
+
+</body>
+</html>

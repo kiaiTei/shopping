@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>购入确认</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+<div class="page-container">
+
+    <h2>购入確認</h2>
+
+    <div class="purchase-confirm">
+        <div class="form-group">
+            <label>商品名：</label>
+            <span th:text="${product.pName}"></span>
+        </div>
+
+        <div class="form-group">
+            <label>単価：</label>
+            <span th:text="${product.price}"></span> 円
+        </div>
+
+        <div class="form-group">
+            <label>数量：</label>
+            <span th:text="${quantity}"></span>
+        </div>
+
+        <div class="form-group">
+            <label>総額：</label>
+            <span th:text="${totalPrice}"></span> 円
+        </div>
+
+        <hr>
+
+        <div class="form-group">
+            <label>担当者ID：</label>
+            <span th:text="${staff.id}"></span>
+        </div>
+
+        <div class="form-group">
+            <label>顧客ID：</label>
+            <span th:text="${customerId}"></span>
+        </div>
+
+        <hr>
+
+        <!-- 确认提交 -->
+        <form th:action="@{/purchase/save}" method="post" class="purchase-form">
+            <input type="hidden" name="productId" th:value="${product.pId}">
+            <input type="hidden" name="staffId" th:value="${staff.id}">
+            <input type="hidden" name="customerId" th:value="${customerId}">
+            <input type="hidden" name="quantity" th:value="${quantity}">
+            <input type="hidden" name="totalPrice" th:value="${totalPrice}">
+
+            <button type="submit" class="btn-primary">确认提交订单</button>
+        </form>
+
+        <!-- 返回修改 -->
+        <form th:action="@{/purchase/new}" method="get" class="purchase-form">
+            <input type="hidden" name="pId" th:value="${product.pId}">
+            <button type="submit" class="btn-primary">返回输入界面</button>
+        </form>
+
+    </div>
+
+    <p class="back-link">
+        <a th:href="@{/production}">商品一覧へ戻る</a>
+    </p>
+
+</div>
+
+</body>
+</html>

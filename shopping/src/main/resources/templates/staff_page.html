@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>TOP Page</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+<div class="page-wrapper">
+
+    <div class="top-box">
+        <h2>TOP メニュー</h2>
+
+        <p class="welcome">
+            ようこそ、<span th:text="${staff.name}"></span> さん
+        </p>
+
+        <div class="menu-list">
+            <a th:href="@{/production}" class="menu-btn btn-product">商品管理</a>
+            <a th:href="@{/customer}" class="menu-btn btn-customer">顧客管理</a>
+            <a th:href="@{/staff}" class="menu-btn btn-staff">担当者管理</a>
+            <a href="/uriage_menu.html" class="menu-btn btn-uriage">売上管理</a>
+        </div>
+
+        <!-- ★ 登出按钮 -->
+        <div style="margin-top: 20px; text-align: right;">
+            <a th:href="@{/logout}" class="menu-btn btn-logout">
+                ログアウト
+            </a>
+        </div>
+
+    </div>
+
+</div>
+
+<script>
+/*
+ * 解决浏览器后退缓存（BFCache）
+ * 页面被恢复时重新校验 session
+ */
+window.addEventListener("pageshow", function (event) {
+    if (event.persisted) {
+        // 页面来自后退缓存，强制刷新
+        window.location.reload();
+    }
+});
+</script>
+
+
+</body>
+</html>

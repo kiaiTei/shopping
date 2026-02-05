@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>商品別売上集計</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+<div class="page-container">
+
+    <h2>商品別売上集計</h2>
+
+    <table class="data-table">
+        <thead>
+            <tr>
+                <th>商品ID</th>
+                <th>商品名</th>
+                <th>総売上金額</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="row : ${summaryList}">
+                <td th:text="${row.productId}"></td>
+                <td th:text="${row.productName}"></td>
+                <td th:text="${row.totalSales}"></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="bottom-links">
+        <a th:href="@{/uriage/production/export}" class="btn-primary">📥 Excelでダウンロード</a>
+        <a href="/uriage_menu.html" class="btn-secondary">戻る</a>
+        <a th:href="@{/staff_page}" class="btn-secondary">従業員TOPへ戻る</a>
+    </div>
+
+</div>
+
+</body>
+</html>

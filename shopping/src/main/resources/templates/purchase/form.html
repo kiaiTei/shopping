@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>商品購入</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+<div class="page-container">
+
+    <h2>商品購入</h2>
+
+    <form th:action="@{/purchase/confirm}" method="post" class="purchase-form">
+
+        <!-- 商品ID（隐藏提交） -->
+        <input type="hidden" name="productId" th:value="${product.pId}">
+
+        <div class="form-group">
+            <label>商品ID：</label>
+            <span th:text="${product.pId}"></span>
+        </div>
+
+        <div class="form-group">
+            <label>商品名：</label>
+            <span th:text="${product.pName}"></span>
+        </div>
+
+        <div class="form-group">
+            <label>単価：</label>
+            <span th:text="${product.price}"></span> 円
+        </div>
+
+        <div class="form-group">
+            <label>担当者：</label>
+            <span th:text="${staff.id}"></span>
+        </div>
+
+        <div class="form-group">
+            <label>顧客ID：</label>
+            <input type="number" name="customerId" required>
+        </div>
+
+        <div class="form-group">
+            <label>購入数量：</label>
+            <input type="number" name="quantity" min="1" required>
+        </div>
+
+        <button type="submit" class="btn-primary">確認へ</button>
+
+    </form>
+
+    <p class="back-link">
+        <a th:href="@{/production}">商品一覧へ戻る</a>
+    </p>
+
+</div>
+
+</body>
+</html>

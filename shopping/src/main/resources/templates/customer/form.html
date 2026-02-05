@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>顧客登録</title>
+<link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+<div class="page-container">
+
+    <h2 th:text="${customer != null and customer.customerNo != 0} 
+                ? '顧客編集' 
+                : '顧客新規登録'">
+    </h2>
+
+    <form th:action="@{/customer/save}" th:object="${customer}" method="post" class="form-box">
+
+        <!-- 顧客No（編集時のみ hidden） -->
+        <input type="hidden" th:field="*{customerNo}" />
+
+        <div class="form-group">
+            <label>顧客名：</label>
+            <input type="text" th:field="*{customerName}" required>
+        </div>
+
+        <div class="form-group">
+            <label>住所：</label>
+            <input type="text" th:field="*{address}">
+        </div>
+
+        <div class="form-group">
+            <label>電話番号：</label>
+            <input type="text" th:field="*{phone}">
+        </div>
+
+        <div class="form-group">
+            <button type="submit" class="btn-primary">保存</button>
+        </div>
+
+    </form>
+
+    <p class="back-link">
+        <a th:href="@{/customer}">一覧へ戻る</a>
+    </p>
+
+</div>
+
+</body>
+</html>

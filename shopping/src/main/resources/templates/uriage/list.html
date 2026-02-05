@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>売上一覧</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+<div class="page-container">
+
+    <h2>売上一覧</h2>
+
+    <!-- 筛选表单 -->
+    <form th:action="@{/uriage/list}" method="get" class="search-box">
+
+		<div class="form-group">
+		    <label for="id">ID:</label>
+		    <input type="text" id="id" name="id" placeholder="ID" th:value="${id}">
+		</div>
+
+		<div class="form-group">
+		    <label for="productName">商品名:</label>
+		    <input type="text" id="productName" name="productName" placeholder="商品名" th:value="${productName}">
+		</div>
+
+		<div class="form-group">
+		    <label for="staffName">担当者名:</label>
+		    <input type="text" id="staffName" name="staffName" placeholder="担当者名" th:value="${staffName}">
+		</div>
+
+		<div class="form-group">
+		    <label for="customerName">顧客名:</label>
+		    <input type="text" id="customerName" name="customerName" placeholder="顧客名" th:value="${customerName}">
+		</div>
+
+		<div class="form-group">
+		    <label for="priceRange">価格区間:</label>
+		    <select id="priceRange" name="priceRange">
+		        <option value="" th:selected="${priceRange == null or priceRange == ''}">----</option>
+		        <option value="0-1000" th:selected="${priceRange == '0-1000'}">1000以下</option>
+		        <option value="1000-5000" th:selected="${priceRange == '1000-5000'}">1000～5000</option>
+		        <option value="5000-10000" th:selected="${priceRange == '5000-10000'}">5000～10000</option>
+		        <option value="10000-" th:selected="${priceRange == '10000-'}">10000以上</option>
+		    </select>
+		</div>
+
+
+        <div class="form-group">
+            <button type="submit" class="btn-primary">筛选</button>
+        </div>
+    </form>
+
+    <!-- Excel 导出按钮 -->
+    <form th:action="@{/uriage/export}" method="get" class="search-box">
+        <input type="hidden" name="id" th:value="${id}">
+        <input type="hidden" name="productName" th:value="${productName}">
+        <input type="hidden" name="staffName" th:value="${staffName}">
+        <input type="hidden" name="customerName" th:value="${customerName}">
+        <input type="hidden" name="priceRange" th:value="${priceRange}">
+        <div class="form-group">
+            <button type="submit" class="btn-primary">Excel导出</button>
+        </div>
+    </form>
+
+    <!-- 表格 -->
+    <table class="data-table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>商品名</th>
+                <th>担当者</th>
+                <th>顧客</th>
+                <th>数量</th>
+                <th>合計金額</th>
+                <th>購入日時</th>
+                <th>操作</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="row : ${list}">
+                <td th:text="${row.id}"></td>
+                <td th:text="${row.productName}"></td>
+                <td th:text="${row.staffName}"></td>
+                <td th:text="${row.customerName}"></td>
+                <td th:text="${row.quantity}"></td>
+                <td th:text="${row.totalPrice}"></td>
+                <td th:text="${row.createdAtFormatted}"></td>
+                <td class="action-cell">
+                    <a th:href="@{/uriage/edit/{id}(id=${row.id})}" class="btn-edit">修改</a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <!-- 返回链接 -->
+    <p class="back-link">
+        <a href="/uriage_menu.html" class="link-back">戻る</a>
+    </p>
+    <p class="back-link">
+        <a th:href="@{/staff_page}" class="link-back">従業員TOPへ戻る</a>
+    </p>
+
+</div>
+
+</body>
+</html>

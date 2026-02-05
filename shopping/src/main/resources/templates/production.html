@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>商品一覧</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+<body>
+
+<div class="page-container">
+
+    <h2 class="page-title">商品一覧</h2>
+
+    <!-- 検索 -->
+    <form th:action="@{/production/search}" method="get" class="search-box">
+        <input type="text" name="keyword" placeholder="商品名・ブランドなどで検索">
+        <button type="submit" class="btn-search">検索</button>
+    </form>
+
+    <p class="desc">登録されている商品は以下の通りです。</p>
+
+    <!-- 表 -->
+    <table class="data-table">
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>商品名</th>
+                <th>ブランド</th>
+                <th>サイズ</th>
+                <th>価格</th>
+                <th>操作</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="v : ${all_production}">
+                <td th:text="${v.pId}"></td>
+                <td th:text="${v.pName}"></td>
+                <td th:text="${v.brand}"></td>
+                <td th:text="${v.size}"></td>
+                <td th:text="${v.price}"></td>
+                <td class="action-cell">
+                    <a th:href="@{/purchase/new(pId=${v.pId})}" class="btn btn-buy">購入</a>
+                    <a th:href="@{/production/edit(id=${v.pId})}" class="btn btn-edit">修正</a>
+                    <a th:href="@{/production/delete(id=${v.pId})}"
+                       class="btn btn-delete"
+                       onclick="return confirm('确定要删除该商品吗？');">削除</a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="bottom-links">
+        <a th:href="@{/new_pro}" class="btn-primary">＋ 新商品追加</a>
+        <a th:href="@{/staff_page}" class="link-back">← 従業員TOPへ戻る</a>
+    </div>
+
+</div>
+
+</body>
+</html>

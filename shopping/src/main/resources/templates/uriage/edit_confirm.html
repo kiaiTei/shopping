@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>修改確認</title>
+</head>
+<body>
+<h2>売上情報の確認</h2>
+
+<p>担当者ID: <span th:text="${staffId}"></span></p>
+<p>顧客ID: <span th:text="${customerId}"></span></p>
+<p>商品名: <span th:text="${product.pName}"></span></p>
+<p>数量: <span th:text="${quantity}"></span></p>
+<p>合計金額: <span th:text="${totalPrice}"></span></p>
+
+<form th:action="@{/uriage/edit/save}" method="post">
+    <input type="hidden" name="purchaseId" th:value="${purchaseId}" />
+    <input type="hidden" name="productId" th:value="${product.pId}" />
+    <input type="hidden" name="quantity" th:value="${quantity}" />
+    <input type="hidden" name="totalPrice" th:value="${totalPrice}" />
+
+    <button type="submit">保存</button>
+</form>
+
+<p><a th:href="@{/uriage/list}">一覧に戻る</a></p>
+</body>
+</html>
