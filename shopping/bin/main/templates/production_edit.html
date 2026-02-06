@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>商品情報編集</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<div class="page-container">
+
+    <h2>商品情報編集</h2>
+
+    <form th:action="@{/production/edit}" method="post">
+
+        <!-- 隐藏 ID -->
+        <input type="hidden" name="pId" th:value="${production.pId}">
+
+        <div class="form-group">
+            <label for="pName">商品名：</label>
+            <input type="text" id="pName" name="pName" th:value="${production.pName}" required>
+        </div>
+
+        <div class="form-group">
+            <label for="brand">ブランド：</label>
+            <input type="text" id="brand" name="brand" th:value="${production.brand}" required>
+        </div>
+
+        <div class="form-group">
+            <label for="size">サイズ：</label>
+            <input type="text" id="size" name="size" th:value="${production.size}" required>
+        </div>
+
+        <div class="form-group">
+            <label for="price">価格：</label>
+            <input type="number" id="price" name="price" th:value="${production.price}" min="0" required>
+        </div>
+
+        <button type="submit" class="btn-primary">更新</button>
+    </form>
+
+    <p class="back-link">
+        <a th:href="@{/production}">← 商品一覧へ戻る</a>
+    </p>
+
+</div>
+
+</body>
+</html>

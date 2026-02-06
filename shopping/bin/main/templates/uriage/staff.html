@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>担当者別売上集計</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+
+<div class="page-container">
+
+    <h2>担当者別売上集計</h2>
+
+    <table class="data-table">
+        <thead>
+            <tr>
+                <th>担当者ID</th>
+                <th>担当者名</th>
+                <th>総売上金額</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="row : ${summaryList}">
+                <td th:text="${row.staffId}"></td>
+                <td th:text="${row.staffName}"></td>
+                <td th:text="${row.totalSales}"></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="bottom-links">
+        <a href="/uriage_menu.html" class="btn-secondary">戻る</a>
+        <a th:href="@{/staff_page}" class="btn-secondary">従業員TOPへ戻る</a>
+    </div>
+
+</div>
+
+</body>
+</html>

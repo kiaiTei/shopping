@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>修改売上</title>
+</head>
+<body>
+<h2>売上情報の編集</h2>
+
+<form th:action="@{/uriage/edit/confirm}" method="post">
+    <input type="hidden" name="purchaseId" th:value="${purchase.id}" />
+
+    <p>担当者: <span th:text="${staff.name}"></span></p>
+    <p>顧客: <span th:text="${customer.customerName}"></span></p>
+    <p>元の商品名: <span th:text="${product.pName}"></span></p>
+    <p>元の数量: <span th:text="${purchase.quantity}"></span></p>
+    <p>元の合計金額: <span th:text="${purchase.totalPrice}"></span></p>
+
+    <p>商品を選択:
+        <select name="productId">
+            <option th:each="p : ${products}"
+                    th:value="${p.pId}"
+                    th:text="${p.pName}"
+                    th:selected="${p.pId} == ${product.pId}"></option>
+        </select>
+    </p>
+
+    <p>数量:
+        <input type="number" name="quantity" th:value="${purchase.quantity}" min="1" />
+    </p>
+
+    <button type="submit">確認</button>
+</form>
+
+<p><a th:href="@{/uriage/list}">一覧に戻る</a></p>
+
+</body>
+</html>

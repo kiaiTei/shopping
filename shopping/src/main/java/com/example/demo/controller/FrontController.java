@@ -63,17 +63,43 @@ public class FrontController {
 
     
     @GetMapping("/production")
-    public String productionList(HttpSession session, Model model) {
+    public String productionList(
+            @RequestParam(required = false) Integer id,
+            @RequestParam(required = false) String pName,
+            @RequestParam(required = false) String brand,
+            @RequestParam(required = false) String priceRange,
+            HttpSession session,
+            Model model
+    ) {
         Entity_staff staff = (Entity_staff) session.getAttribute("staff");
         if (staff == null) {
             return "redirect:/login_employee";
         }
 
-        List<Production> list = productionService.findAll();
+        List<Production> list;
+
+        if ((id == null) && (pName == null || pName.isEmpty()) &&
+            (brand == null || brand.isEmpty()) && (priceRange == null || priceRange.isEmpty())) {
+            // 关键字全空 → 显示全部
+            list = productionService.findAll();
+        } else {
+            // 根据条件筛选
+            list = productionService.searchByFields(id, pName, brand, priceRange);
+        }
+
         model.addAttribute("all_production", list);
-        model.addAttribute("staff", staff); // 前端也可能需要显示名字
+        model.addAttribute("staff", staff);
+
+        // 保留前端选中值
+        model.addAttribute("id", id);
+        model.addAttribute("pName", pName);
+        model.addAttribute("brand", brand);
+        model.addAttribute("priceRange", priceRange);
+
         return "production";
     }
+
+
 
     
     @GetMapping("/new_pro")
@@ -113,22 +139,27 @@ public class FrontController {
     
     @GetMapping("/production/search")
     public String searchProduction(
-            @RequestParam String keyword,
+            @RequestParam(required = false, defaultValue = "") String keyword,
             HttpSession session,
             Model model
     ) {
-    	Entity_staff staff = (Entity_staff) session.getAttribute("staff");
+        Entity_staff staff = (Entity_staff) session.getAttribute("staff");
         if (staff == null) {
             return "redirect:/login_employee";
         }
 
-
-        List<Production> result = productionService.search(keyword);
+        List<Production> result;
+        if (keyword.isEmpty()) {
+            result = productionService.findAll(); // 没关键词就显示全部
+        } else {
+            result = productionService.search(keyword); // 有关键词就搜索
+        }
 
         model.addAttribute("keyword", keyword);
-        model.addAttribute("search_result", result);
+        model.addAttribute("all_production", result);
+        model.addAttribute("staff", staff);
 
-        return "production_search";
+        return "production";
     }
     
     @GetMapping("/production/edit")

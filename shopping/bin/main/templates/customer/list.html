@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>顧客管理</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<div class="page-container">
+
+
+    <h2>顧客検索</h2>
+
+    <!-- 搜索表单 -->
+    <form th:action="@{/customer/search}" method="get" class="search-box">
+
+        <div class="form-group">
+            <label>顧客No：</label>
+            <input type="number" name="customerNo" placeholder="顧客No">
+        </div>
+
+        <div class="form-group">
+            <label>顧客名：</label>
+            <input type="text" name="customerName" placeholder="顧客名">
+        </div>
+
+        <div class="form-group">
+            <label>住所：</label>
+            <input type="text" name="address" placeholder="住所">
+        </div>
+
+        <div class="form-group">
+            <label>電話番号：</label>
+            <input type="text" name="phone" placeholder="電話番号">
+        </div>
+
+        <div class="form-group">
+            <button type="submit" class="btn-primary">検索</button>
+        </div>
+
+    </form>
+
+    <hr>
+
+    <h2>顧客一覧</h2>
+
+
+    <table class="data-table">
+        <thead>
+            <tr>
+                <th>No</th>
+                <th>顧客名</th>
+                <th>住所</th>
+                <th>電話</th>
+                <th>操作</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="c : ${customers}">
+                <td th:text="${c.customerNo}"></td>
+                <td th:text="${c.customerName}"></td>
+                <td th:text="${c.address}"></td>
+                <td th:text="${c.phone}"></td>
+                <td class="action-cell">
+                    <form th:action="@{/customer/edit/{id}(id=${c.customerNo})}" method="get" style="display:inline">
+                        <button type="submit" class="btn-edit">編集</button>
+                    </form>
+                    <form th:action="@{/customer/delete/{id}(id=${c.customerNo})}" method="post" style="display:inline">
+                        <button type="submit" class="btn-delete" onclick="return confirm('本当に削除しますか？')">削除</button>
+                    </form>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+	<a th:href="@{/customer/new}" class="btn-primary">＋ 新規顧客登録</a>
+
+    <!-- 返回员工TOP -->
+    <p class="back-link">
+        <a th:href="@{/staff_page}">← 従業員TOPへ戻る</a>
+    </p>
+
+</div>
+
+</body>
+</html>

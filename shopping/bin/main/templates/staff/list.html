@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="ja" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>担当者管理</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<div class="page-container">
+
+    <h2>担当者検索</h2>
+
+    <form th:action="@{/staff/search}" method="get" class="search-box">
+        <div class="form-group">
+            <label>担当者No：</label>
+            <input type="number" name="id">
+        </div>
+
+        <div class="form-group">
+            <label>担当者名：</label>
+            <input type="text" name="name">
+        </div>
+
+        <button type="submit" class="btn-primary">検索</button>
+    </form>
+
+    <hr>
+
+    <h2>担当者一覧</h2>
+
+    <table class="data-table">
+        <thead>
+        <tr>
+            <th>No</th>
+            <th>担当者名</th>
+            <th>操作</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        <tr th:each="s : ${staffList}">
+            <td th:text="${s.id}"></td>
+            <td th:text="${s.name}"></td>
+            <td class="action-cell">
+
+                <!-- 編集：管理员全部 / 普通用户仅自己 -->
+                <form th:if="${loginUser != null and (loginUser.role == 'ADMIN' or loginUser.id == s.id)}"
+                      th:action="@{/staff/edit/{id}(id=${s.id})}"
+                      method="get"
+                      style="display:inline">
+                    <button type="submit" class="btn-edit">編集</button>
+                </form>
+
+                <!-- 删除：仅管理员 -->
+                <form th:if="${loginUser != null and loginUser.role == 'ADMIN'}"
+                      th:action="@{/staff/delete/{id}(id=${s.id})}"
+                      method="post"
+                      style="display:inline">
+                    <button type="submit"
+                            class="btn-delete"
+                            onclick="return confirm('削除しますか？')">
+                        削除
+                    </button>
+                </form>
+
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <!-- 新规注册：仅管理员 -->
+    <div class="bottom-links">
+        <a th:if="${loginUser != null and loginUser.role == 'ADMIN'}"
+           th:href="@{/staff/new}"
+           class="btn-primary">
+            ＋ 新規登録
+        </a>
+
+        <a th:href="@{/staff_page}" class="link-back">
+            ← 従業員TOPへ戻る
+        </a>
+    </div>
+
+</div>
+
+</body>
+</html>
